@@ -68,8 +68,7 @@
         <!-- Quick Links -->
         <div class="service-links">
           <a *ngIf="svc.appUrl" [href]="svc.appUrl" target="_blank" class="link-chip">App</a>
-          <a *ngIf="svc.healthUrl" [href]="svc.appUrl + '/health'" target="_blank" class="link-chip link-health"
-             [class.hidden]="svc.type === 'ui'">Health</a>
+          <a *ngIf="svc.healthPageUrl" [href]="svc.healthPageUrl" target="_blank" class="link-chip link-health">Health</a>
           <a *ngIf="svc.swaggerUrl" [href]="svc.swaggerUrl" target="_blank" class="link-chip link-swagger">Swagger</a>
         </div>
 

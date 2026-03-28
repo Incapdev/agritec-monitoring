@@ -14,14 +14,16 @@ export class HealthService {
         {
           id: 'ucgagent-api', name: 'UCG Agent API', type: 'api',
           healthUrl: '/proxy/dev/ucgagent/Health/ping', logsUrl: '/proxy/dev/ucgagent/Health/logs',
-          appUrl: 'http://ucgagent.162.19.239.150.nip.io',
-          swaggerUrl: 'http://ucgagent.162.19.239.150.nip.io/swagger',
+          appUrl: 'https://dev.agritec.earth/ucg-api/',
+          healthPageUrl: 'https://dev.agritec.earth/ucg-api/Health/ping',
+          swaggerUrl: 'https://dev.agritec.earth/ucg-api/swagger',
         },
         {
           id: 'diary-api', name: 'Diary API', type: 'api',
           healthUrl: '/proxy/dev/diary/api/health', logsUrl: '/proxy/dev/diary/api/health/logs',
-          appUrl: 'http://diary.162.19.239.150.nip.io',
-          swaggerUrl: 'http://diary.162.19.239.150.nip.io/swagger',
+          appUrl: 'https://dev.agritec.earth/diary-api/',
+          healthPageUrl: 'https://dev.agritec.earth/diary-api/api/health',
+          swaggerUrl: 'https://dev.agritec.earth/diary-api/swagger',
         },
         {
           id: 'unified-ui', name: 'Unified UI', type: 'ui',
@@ -36,14 +38,16 @@ export class HealthService {
         {
           id: 'ucgagent-api', name: 'UCG Agent API', type: 'api',
           healthUrl: '/proxy/uat/ucgagent/Health/ping', logsUrl: '/proxy/uat/ucgagent/Health/logs',
-          appUrl: 'http://ucgagent-uat.162.19.239.150.nip.io',
-          swaggerUrl: 'http://ucgagent-uat.162.19.239.150.nip.io/swagger',
+          appUrl: 'https://uat.agritec.earth/ucg-api/',
+          healthPageUrl: 'https://uat.agritec.earth/ucg-api/Health/ping',
+          swaggerUrl: 'https://uat.agritec.earth/ucg-api/swagger',
         },
         {
           id: 'diary-api', name: 'Diary API', type: 'api',
           healthUrl: '/proxy/uat/diary/api/health', logsUrl: '/proxy/uat/diary/api/health/logs',
-          appUrl: 'http://diary-uat.162.19.239.150.nip.io',
-          swaggerUrl: 'http://diary-uat.162.19.239.150.nip.io/swagger',
+          appUrl: 'https://uat.agritec.earth/diary-api/',
+          healthPageUrl: 'https://uat.agritec.earth/diary-api/api/health',
+          swaggerUrl: 'https://uat.agritec.earth/diary-api/swagger',
         },
         {
           id: 'unified-ui', name: 'Unified UI', type: 'ui',
@@ -77,7 +81,7 @@ export class HealthService {
           detail: body,
           databases,
           appUrl: service.appUrl,
-          healthUrl: service.healthUrl,
+          healthPageUrl: service.healthPageUrl,
           swaggerUrl: service.swaggerUrl,
         };
       }),
@@ -92,7 +96,7 @@ export class HealthService {
           url: service.healthUrl,
           error: err.status === 0 ? 'Connection refused' : `HTTP ${err.status}: ${err.statusText}`,
           appUrl: service.appUrl,
-          healthUrl: service.healthUrl,
+          healthPageUrl: service.healthPageUrl,
           swaggerUrl: service.swaggerUrl,
         });
       })

@@ -77,7 +77,7 @@ export class Dashboard implements OnInit, OnDestroy {
         id: 'ucgagent-api', name: 'UCG Agent API', type: 'api', status: 'up',
         responseTime: 200, url: `/proxy/${env}/ucgagent/Health/ping`,
         appUrl: find('ucgagent-api')?.appUrl,
-        healthUrl: find('ucgagent-api')?.healthUrl,
+        healthPageUrl: find('ucgagent-api')?.healthPageUrl,
         swaggerUrl: find('ucgagent-api')?.swaggerUrl,
         databases: [{ name: 'MSSQL', status: 'up', server: 'agritec-dev-mssql:1433', database: 'UCGDEV', version: 'SQL Server 2022' }]
       },
@@ -85,7 +85,7 @@ export class Dashboard implements OnInit, OnDestroy {
         id: 'diary-api', name: 'Diary API', type: 'api', status: 'up',
         responseTime: 150, url: `/proxy/${env}/diary/api/health`,
         appUrl: find('diary-api')?.appUrl,
-        healthUrl: find('diary-api')?.healthUrl,
+        healthPageUrl: find('diary-api')?.healthPageUrl,
         swaggerUrl: find('diary-api')?.swaggerUrl,
         databases: [
           { name: 'Couchbase', status: 'up', database: 'Infocap (UCG)' },

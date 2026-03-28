@@ -5,6 +5,7 @@ export interface ServiceConfig {
   healthUrl: string;
   logsUrl?: string;
   appUrl?: string;
+  healthPageUrl?: string;
   swaggerUrl?: string;
 }
 
@@ -24,7 +25,7 @@ export interface ServiceStatus {
   detail?: any;
   databases?: DatabaseStatus[];
   appUrl?: string;
-  healthUrl?: string;
+  healthPageUrl?: string;
   swaggerUrl?: string;
 }
 
