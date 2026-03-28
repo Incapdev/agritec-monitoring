@@ -69,17 +69,10 @@ export class Dashboard implements OnInit, OnDestroy {
   private getMockData(): ServiceStatus[] {
     const env = this.activeEnv();
     const cfg = this.healthService.environments[env];
+    if (!cfg) return [];
     const find = (id: string) => cfg.services.find(s => s.id === id);
 
     return [
-      {
-        id: 'agritec-api', name: 'Agritec V2 API', type: 'api', status: 'up',
-        responseTime: 85, url: `/proxy/${env}/agritec/health`,
-        appUrl: find('agritec-api')?.appUrl,
-        healthUrl: find('agritec-api')?.healthUrl,
-        swaggerUrl: find('agritec-api')?.swaggerUrl,
-        databases: [{ name: 'PostgreSQL', status: 'up', server: 'agritec-dev-db:5432', database: 'agritec_v2', version: 'PostgreSQL 15.4' }]
-      },
       {
         id: 'ucgagent-api', name: 'UCG Agent API', type: 'api', status: 'up',
         responseTime: 200, url: `/proxy/${env}/ucgagent/Health/ping`,
@@ -100,16 +93,10 @@ export class Dashboard implements OnInit, OnDestroy {
         ]
       },
       {
-        id: 'agritec-ui', name: 'Agritec V2 UI', type: 'ui', status: 'up',
-        responseTime: 120, url: `/proxy/${env}/agritec-ui/`,
-        appUrl: find('agritec-ui')?.appUrl,
-      },
-      {
-        id: 'unified-ui', name: 'Unified UI', type: 'ui', status: env === 'prod' ? 'down' : 'up',
-        responseTime: env === 'prod' ? undefined : 90,
+        id: 'unified-ui', name: 'Unified UI', type: 'ui', status: 'up',
+        responseTime: 90,
         url: `/proxy/${env}/unified/version`,
         appUrl: find('unified-ui')?.appUrl,
-        error: env === 'prod' ? 'Connection refused' : undefined
       },
     ];
   }

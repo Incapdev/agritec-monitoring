@@ -12,12 +12,6 @@ export class HealthService {
       label: 'DEV',
       services: [
         {
-          id: 'agritec-api', name: 'Agritec V2 API', type: 'api',
-          healthUrl: '/proxy/dev/agritec/health', logsUrl: '/proxy/dev/agritec/health/logs',
-          appUrl: 'http://dev.162.19.239.150.nip.io',
-          swaggerUrl: 'http://dev.162.19.239.150.nip.io/swagger',
-        },
-        {
           id: 'ucgagent-api', name: 'UCG Agent API', type: 'api',
           healthUrl: '/proxy/dev/ucgagent/Health/ping', logsUrl: '/proxy/dev/ucgagent/Health/logs',
           appUrl: 'http://ucgagent.162.19.239.150.nip.io',
@@ -30,11 +24,6 @@ export class HealthService {
           swaggerUrl: 'http://diary.162.19.239.150.nip.io/swagger',
         },
         {
-          id: 'agritec-ui', name: 'Agritec V2 UI', type: 'ui',
-          healthUrl: '/proxy/dev/agritec-ui/',
-          appUrl: 'http://dev.162.19.239.150.nip.io',
-        },
-        {
           id: 'unified-ui', name: 'Unified UI', type: 'ui',
           healthUrl: '/proxy/dev/unified/version',
           appUrl: 'https://dev.agritec.earth',
@@ -44,12 +33,6 @@ export class HealthService {
     uat: {
       label: 'UAT',
       services: [
-        {
-          id: 'agritec-api', name: 'Agritec V2 API', type: 'api',
-          healthUrl: '/proxy/uat/agritec/health', logsUrl: '/proxy/uat/agritec/health/logs',
-          appUrl: 'http://uat.162.19.239.150.nip.io',
-          swaggerUrl: 'http://uat.162.19.239.150.nip.io/swagger',
-        },
         {
           id: 'ucgagent-api', name: 'UCG Agent API', type: 'api',
           healthUrl: '/proxy/uat/ucgagent/Health/ping', logsUrl: '/proxy/uat/ucgagent/Health/logs',
@@ -63,47 +46,9 @@ export class HealthService {
           swaggerUrl: 'http://diary-uat.162.19.239.150.nip.io/swagger',
         },
         {
-          id: 'agritec-ui', name: 'Agritec V2 UI', type: 'ui',
-          healthUrl: '/proxy/uat/agritec-ui/',
-          appUrl: 'http://uat.162.19.239.150.nip.io',
-        },
-        {
           id: 'unified-ui', name: 'Unified UI', type: 'ui',
           healthUrl: '/proxy/uat/unified/version',
           appUrl: 'https://uat.agritec.earth',
-        },
-      ]
-    },
-    prod: {
-      label: 'PROD',
-      services: [
-        {
-          id: 'agritec-api', name: 'Agritec V2 API', type: 'api',
-          healthUrl: '/proxy/prod/agritec/health', logsUrl: '/proxy/prod/agritec/health/logs',
-          appUrl: 'http://prod.162.19.239.150.nip.io',
-          swaggerUrl: 'http://prod.162.19.239.150.nip.io/swagger',
-        },
-        {
-          id: 'ucgagent-api', name: 'UCG Agent API', type: 'api',
-          healthUrl: '/proxy/prod/ucgagent/Health/ping', logsUrl: '/proxy/prod/ucgagent/Health/logs',
-          appUrl: 'http://ucgagent-prod.162.19.239.150.nip.io',
-          swaggerUrl: 'http://ucgagent-prod.162.19.239.150.nip.io/swagger',
-        },
-        {
-          id: 'diary-api', name: 'Diary API', type: 'api',
-          healthUrl: '/proxy/prod/diary/api/health', logsUrl: '/proxy/prod/diary/api/health/logs',
-          appUrl: 'http://diary-prod.162.19.239.150.nip.io',
-          swaggerUrl: 'http://diary-prod.162.19.239.150.nip.io/swagger',
-        },
-        {
-          id: 'agritec-ui', name: 'Agritec V2 UI', type: 'ui',
-          healthUrl: '/proxy/prod/agritec-ui/',
-          appUrl: 'http://prod.162.19.239.150.nip.io',
-        },
-        {
-          id: 'unified-ui', name: 'Unified UI', type: 'ui',
-          healthUrl: '/proxy/prod/unified/version',
-          appUrl: 'https://prod.agritec.earth',
         },
       ]
     }
