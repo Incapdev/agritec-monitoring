@@ -1,0 +1,12 @@
+services:
+  monitor:
+    build: .
+    container_name: agritec-monitor
+    restart: unless-stopped
+    networks:
+      - agritec_network
+
+networks:
+  agritec_network:
+    external: true
+    name: agritec_network

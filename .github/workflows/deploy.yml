@@ -1,0 +1,60 @@
+name: Deploy Monitoring Dashboard
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Build Docker image
+        run: |
+          docker build -t agritec-monitor:latest .
+
+      - name: Save Docker image
+        run: |
+          docker save agritec-monitor:latest | gzip > agritec-monitor.tar.gz
+
+      - name: Transfer image to server
+        uses: appleboy/scp-action@v0.1.7
+        with:
+          host: ${{ secrets.SERVER_HOST }}
+          username: ${{ secrets.SERVER_USER }}
+          key: ${{ secrets.SERVER_SSH_KEY }}
+          source: "agritec-monitor.tar.gz"
+          target: "/tmp/agritec-monitor-deploy"
+
+      - name: Deploy on server
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ secrets.SERVER_HOST }}
+          username: ${{ secrets.SERVER_USER }}
+          key: ${{ secrets.SERVER_SSH_KEY }}
+          script: |
+            echo "=== Loading Docker image ==="
+            docker load < /tmp/agritec-monitor-deploy/agritec-monitor.tar.gz
+
+            echo "=== Stopping old container ==="
+            docker stop agritec-monitor 2>/dev/null || true
+            docker rm agritec-monitor 2>/dev/null || true
+
+            echo "=== Starting new container ==="
+            docker run -d \
+              --name agritec-monitor \
+              --restart unless-stopped \
+              --network agritec_network \
+              agritec-monitor:latest
+
+            echo "=== Cleaning up ==="
+            rm -rf /tmp/agritec-monitor-deploy
+
+            echo "=== Verifying ==="
+            sleep 3
+            docker ps | grep agritec-monitor
+            echo "Deploy complete!"

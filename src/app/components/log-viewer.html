@@ -1,0 +1,32 @@
+<div class="logs-controls">
+  <div class="control-group">
+    <label>Service</label>
+    <select (change)="onServiceChange($any($event.target).value)">
+      <option value="">Select service...</option>
+      <option *ngFor="let svc of services" [value]="svc.id">{{ svc.name }}</option>
+    </select>
+  </div>
+
+  <div class="control-group">
+    <label>Log File</label>
+    <select [disabled]="logFiles().length === 0" (change)="selectedFile.set($any($event.target).value)">
+      <option value="">{{ loadingFiles() ? 'Loading...' : 'Select file...' }}</option>
+      <option *ngFor="let file of logFiles()" [value]="file.name">
+        {{ file.name }} ({{ file.size }})
+      </option>
+    </select>
+  </div>
+
+  <div class="control-group control-actions">
+    <button class="btn btn-view" (click)="viewLog()" [disabled]="!selectedFile()">View</button>
+    <button class="btn btn-download" (click)="downloadLog()" [disabled]="!selectedFile()">Download</button>
+  </div>
+</div>
+
+<div class="log-viewer" *ngIf="logContent() || loadingContent()">
+  <div class="log-header">
+    <span>{{ selectedFile() }}</span>
+    <span class="log-lines">{{ loadingContent() ? 'Loading...' : 'Last 200 lines' }}</span>
+  </div>
+  <pre class="log-content">{{ logContent() }}</pre>
+</div>

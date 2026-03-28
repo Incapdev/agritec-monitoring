@@ -1,0 +1,94 @@
+.logs-controls {
+  display: flex;
+  gap: 16px;
+  align-items: flex-end;
+  margin-bottom: 16px;
+  flex-wrap: wrap;
+}
+
+.control-group { display: flex; flex-direction: column; gap: 4px; }
+
+.control-group label {
+  font-size: 12px;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.control-group select {
+  background: var(--bg-card);
+  color: var(--text-primary);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 8px 12px;
+  font-size: 13px;
+  min-width: 220px;
+  cursor: pointer;
+  outline: none;
+}
+
+.control-group select:focus { border-color: var(--accent); }
+.control-group select:disabled { opacity: 0.5; cursor: not-allowed; }
+
+.control-actions { flex-direction: row; gap: 8px; align-items: center; }
+
+.btn {
+  padding: 8px 16px;
+  border: none;
+  border-radius: var(--radius);
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.btn:disabled { opacity: 0.5; cursor: not-allowed; }
+
+.btn-view {
+  background: var(--bg-card);
+  color: var(--text-primary);
+  border: 1px solid var(--border);
+}
+
+.btn-view:hover:not(:disabled) { background: var(--bg-card-hover); }
+
+.btn-download { background: #16a34a; color: white; }
+.btn-download:hover:not(:disabled) { background: var(--green); }
+
+.log-viewer {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+}
+
+.log-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 16px;
+  background: rgba(0, 0, 0, 0.2);
+  border-bottom: 1px solid var(--border);
+  font-size: 13px;
+  color: var(--text-secondary);
+}
+
+.log-lines { font-size: 11px; color: var(--text-muted); }
+
+.log-content {
+  padding: 16px;
+  font-family: 'SF Mono', 'Fira Code', 'Cascadia Code', monospace;
+  font-size: 12px;
+  line-height: 1.7;
+  color: var(--text-secondary);
+  overflow-x: auto;
+  max-height: 400px;
+  overflow-y: auto;
+  white-space: pre;
+  margin: 0;
+}
+
+@media (max-width: 768px) {
+  .logs-controls { flex-direction: column; align-items: stretch; }
+  .control-group select { min-width: 100%; }
+}
