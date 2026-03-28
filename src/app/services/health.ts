@@ -13,14 +13,14 @@ export class HealthService {
       services: [
         {
           id: 'ucgagent-api', name: 'UCG Agent API', type: 'api',
-          healthUrl: '/proxy/dev/ucgagent/Health/ping', logsUrl: '/proxy/dev/ucgagent/Health/logs',
+          healthUrl: '/proxy/dev/ucgagent/Health/ping', logsUrl: '/logs/ucgagent-dev/',
           appUrl: 'https://dev.agritec.earth/ucg-api/',
           healthPageUrl: 'https://dev.agritec.earth/ucg-api/Health/ping',
           swaggerUrl: 'https://dev.agritec.earth/ucg-api/swagger',
         },
         {
           id: 'diary-api', name: 'Diary API', type: 'api',
-          healthUrl: '/proxy/dev/diary/api/health', logsUrl: '/proxy/dev/diary/api/health/logs',
+          healthUrl: '/proxy/dev/diary/api/health', logsUrl: '/logs/diary-dev/',
           appUrl: 'https://dev.agritec.earth/diary-api/',
           healthPageUrl: 'https://dev.agritec.earth/diary-api/api/health',
           swaggerUrl: 'https://dev.agritec.earth/diary-api/swagger',
@@ -37,14 +37,14 @@ export class HealthService {
       services: [
         {
           id: 'ucgagent-api', name: 'UCG Agent API', type: 'api',
-          healthUrl: '/proxy/uat/ucgagent/Health/ping', logsUrl: '/proxy/uat/ucgagent/Health/logs',
+          healthUrl: '/proxy/uat/ucgagent/Health/ping', logsUrl: '/logs/ucgagent-uat/',
           appUrl: 'https://uat.agritec.earth/ucg-api/',
           healthPageUrl: 'https://uat.agritec.earth/ucg-api/Health/ping',
           swaggerUrl: 'https://uat.agritec.earth/ucg-api/swagger',
         },
         {
           id: 'diary-api', name: 'Diary API', type: 'api',
-          healthUrl: '/proxy/uat/diary/api/health', logsUrl: '/proxy/uat/diary/api/health/logs',
+          healthUrl: '/proxy/uat/diary/api/health', logsUrl: '/logs/diary-uat/',
           appUrl: 'https://uat.agritec.earth/diary-api/',
           healthPageUrl: 'https://uat.agritec.earth/diary-api/api/health',
           swaggerUrl: 'https://uat.agritec.earth/diary-api/swagger',
@@ -110,19 +110,43 @@ export class HealthService {
   }
 
   getLogFiles(logsUrl: string): Observable<LogFile[]> {
-    return this.http.get<LogFile[]>(logsUrl).pipe(
+    // nginx autoindex JSON returns: [{name, type, mtime, size}, ...]
+    return this.http.get<any[]>(logsUrl).pipe(
+      map(entries => entries
+        .filter((e: any) => e.type === 'file')
+        .sort((a: any, b: any) => new Date(b.mtime).getTime() - new Date(a.mtime).getTime())
+        .map((e: any) => ({
+          name: e.name,
+          size: this.formatSize(e.size),
+          lastModified: new Date(e.mtime).toLocaleString(),
+        }))
+      ),
       catchError(() => of([]))
     );
   }
 
-  getLogContent(logsUrl: string, filename: string, lines: number = 200): Observable<string> {
-    return this.http.get(`${logsUrl}/${filename}?lines=${lines}`, { responseType: 'text' }).pipe(
+  getLogContent(logsUrl: string, filename: string): Observable<string> {
+    return this.http.get(`${logsUrl}${filename}`, { responseType: 'text' }).pipe(
+      map(content => {
+        // Return last 500 lines for large files
+        const lines = content.split('\n');
+        if (lines.length > 500) {
+          return `... (showing last 500 of ${lines.length} lines)\n\n` + lines.slice(-500).join('\n');
+        }
+        return content;
+      }),
       catchError(err => of(`Error loading log: ${err.message}`))
     );
   }
 
   getLogDownloadUrl(logsUrl: string, filename: string): string {
-    return `${logsUrl}/${filename}/download`;
+    return `${logsUrl}${filename}`;
+  }
+
+  private formatSize(bytes: number): string {
+    if (bytes < 1024) return `${bytes} B`;
+    if (bytes < 1024 * 1024) return `${(bytes / 1024).toFixed(1)} KB`;
+    return `${(bytes / (1024 * 1024)).toFixed(1)} MB`;
   }
 
   private extractDatabases(serviceId: string, body: any): DatabaseStatus[] {
