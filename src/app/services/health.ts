@@ -59,11 +59,12 @@ export class HealthService {
   checkService(service: ServiceConfig): Observable<ServiceStatus> {
     const start = Date.now();
 
-    return this.http.get(service.healthUrl, { observe: 'response', responseType: 'json' }).pipe(
+    return this.http.get(service.healthUrl, { observe: 'response', responseType: 'text' }).pipe(
       timeout(this.TIMEOUT),
       map(response => {
         const elapsed = Date.now() - start;
-        const body: any = response.body;
+        let body: any = null;
+        try { body = JSON.parse(response.body || ''); } catch { body = response.body; }
         const databases = this.extractDatabases(service.id, body);
 
         return {
