@@ -16,14 +16,14 @@ export class HealthService {
           healthUrl: '/proxy/dev/ucgagent/Health/ping', logsUrl: '/logs/ucgagent-dev/',
           appUrl: 'https://dev.agritec.earth/ucg-api/',
           healthPageUrl: 'https://dev.agritec.earth/ucg-api/Health/ping',
-          swaggerUrl: 'https://dev.agritec.earth/ucg-api/swagger',
+          swaggerUrl: 'https://dev.agritec.earth/ucg-api/swagger/index.html',
         },
         {
           id: 'diary-api', name: 'Diary API', type: 'api',
           healthUrl: '/proxy/dev/diary/api/health', logsUrl: '/logs/diary-dev/',
           appUrl: 'https://dev.agritec.earth/diary-api/',
           healthPageUrl: 'https://dev.agritec.earth/diary-api/api/health',
-          swaggerUrl: 'https://dev.agritec.earth/diary-api/swagger',
+          swaggerUrl: 'https://dev.agritec.earth/diary-api/swagger/index.html',
         },
         {
           id: 'unified-ui', name: 'Unified UI', type: 'ui',
@@ -40,14 +40,14 @@ export class HealthService {
           healthUrl: '/proxy/uat/ucgagent/Health/ping', logsUrl: '/logs/ucgagent-uat/',
           appUrl: 'https://uat.agritec.earth/ucg-api/',
           healthPageUrl: 'https://uat.agritec.earth/ucg-api/Health/ping',
-          swaggerUrl: 'https://uat.agritec.earth/ucg-api/swagger',
+          swaggerUrl: 'https://uat.agritec.earth/ucg-api/swagger/index.html',
         },
         {
           id: 'diary-api', name: 'Diary API', type: 'api',
           healthUrl: '/proxy/uat/diary/api/health', logsUrl: '/logs/diary-uat/',
           appUrl: 'https://uat.agritec.earth/diary-api/',
           healthPageUrl: 'https://uat.agritec.earth/diary-api/api/health',
-          swaggerUrl: 'https://uat.agritec.earth/diary-api/swagger',
+          swaggerUrl: 'https://uat.agritec.earth/diary-api/swagger/index.html',
         },
         {
           id: 'unified-ui', name: 'Unified UI', type: 'ui',
@@ -183,14 +183,14 @@ export class HealthService {
       if (body.couchbase) {
         dbs.push({
           name: 'Couchbase',
-          status: body.couchbase.status === 'healthy' ? 'up' : 'down',
-          database: body.couchbase.bucket,
+          status: body.couchbase.connected ? 'up' : 'down',
+          database: `${body.couchbase.bucket} (${body.couchbase.scope})`,
         });
       }
       if (body.sqlServer) {
         dbs.push({
           name: 'MSSQL',
-          status: body.sqlServer.status === 'healthy' ? 'up' : 'down',
+          status: body.sqlServer.connected ? 'up' : 'down',
           server: body.sqlServer.server,
           database: body.sqlServer.database,
           version: body.sqlServer.version,
@@ -199,7 +199,7 @@ export class HealthService {
       if (body.diarySqlServer) {
         dbs.push({
           name: 'MSSQL (Diary)',
-          status: body.diarySqlServer.status === 'healthy' ? 'up' : 'down',
+          status: body.diarySqlServer.connected ? 'up' : 'down',
           server: body.diarySqlServer.server,
           database: body.diarySqlServer.database,
         });
